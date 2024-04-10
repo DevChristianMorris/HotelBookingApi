@@ -5,7 +5,7 @@ using HotelBookingApi.Data;
 
 namespace HotelBookingApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class HotelBookingController : ControllerBase
     {
@@ -63,6 +63,14 @@ namespace HotelBookingApi.Controllers
             _context.Bookings.Remove(result);
             _context.SaveChanges();
             return new JsonResult(Ok("Booking deleted"));
+        }
+
+        // Get All  api/HotelBooking/GetAll
+        [HttpGet()]
+        public JsonResult GetAll()
+        {
+            var result = _context.Bookings.ToList();
+            return new JsonResult(Ok(result));
         }
 
     }
