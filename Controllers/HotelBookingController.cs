@@ -17,6 +17,8 @@ namespace HotelBookingApi.Controllers
             _context = context;
         }
 
+        //POST: api/HotelBooking/CreateEdit
+
         [HttpPost]
         public JsonResult CreateEdit(HotelBooking booking)
         {
@@ -30,7 +32,7 @@ namespace HotelBookingApi.Controllers
 
                 if (bookingInDb == null)
                 if (bookingInDb == null)
-                    return new JsonResult(NotFound());
+                    return new JsonResult(NotFound("Booking not found"));
 
 
                   bookingInDb = booking;
@@ -39,6 +41,29 @@ namespace HotelBookingApi.Controllers
             return new JsonResult(Ok(booking));
         }
 
+        //Get       api/HotelBooking/GetAll
+
+        [HttpGet]
+        public JsonResult Get(int id)
+        {
+            var result = _context.Bookings.Find(id);
+            if (result == null)
+                return new JsonResult(NotFound("Booking not found"));
+            return new JsonResult(Ok(result));
+        }
+
+        // Delete   api/HotelBooking/Delete
+
+        [HttpDelete]
+        public JsonResult Delete(int id)
+        {
+            var result = _context.Bookings.Find(id);
+            if (result == null)
+                return new JsonResult(NotFound("Booking not found"));
+            _context.Bookings.Remove(result);
+            _context.SaveChanges();
+            return new JsonResult(Ok("Booking deleted"));
+        }
 
     }
 }
